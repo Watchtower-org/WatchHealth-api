@@ -27,7 +27,9 @@
     "@prisma/client": "^5.22.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
+    "fs": "^0.0.1-security",
     "nodemailer": "^6.9.16",
+    "path": "^0.12.7",
     "reflect-metadata": "^0.2.0",
     "rxjs": "^7.8.1",
     "xoauth2": "^1.2.0"

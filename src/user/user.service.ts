@@ -15,7 +15,7 @@ export class UserService {
             data: createUserDto,
           });
 
-        this.emailService.sendEmail(user.email); 
+        this.emailService.sendEmail(user.email,user.name); 
           return {
             statusCode: 200,
             data: user,
