@@ -20,6 +20,7 @@
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
+    "@atproto/api": "^0.13.16",
     "@nestjs/axios": "^3.1.2",
     "@nestjs/class-transformer": "^0.4.0",
     "@nestjs/class-validator": "^0.13.4",
