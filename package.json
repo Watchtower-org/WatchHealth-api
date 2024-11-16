@@ -20,9 +20,21 @@
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
+    "@atproto/api": "^0.13.16",
+    "@nestjs/axios": "^3.1.2",
+    "@nestjs/class-transformer": "^0.4.0",
+    "@nestjs/class-validator": "^0.13.4",
     "@nestjs/common": "^10.0.0",
+    "@nestjs/config": "^3.3.0",
     "@nestjs/core": "^10.0.0",
     "@nestjs/platform-express": "^10.0.0",
+    "@nestjs/swagger": "^8.0.7",
+    "axios": "^1.7.7",
+    "class-transform": "^0.7.0",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.1",
+    "module": "^1.1.0",
+    "openai": "^4.72.0",
     "reflect-metadata": "^0.2.0",
     "rxjs": "^7.8.1"
   },
