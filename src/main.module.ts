@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
-import { LlmModule } from './llm/llm.module';
-import { ConfigModule } from '@nestjs/config';
-import { BotsModule } from './bots/bots.module';
-import { AppModule } from './app/app.module';
-
+import { UserModule } from './user/user.module';
+import { PrismaModule } from './prisma/prisma.module';
+import { PrismaService } from './prisma/prisma.service';
+import { EmailModule } from './email/email.module';
 
 @Module({
-  imports: [LlmModule, ConfigModule.forRoot(), BotsModule, AppModule],
+  imports: [UserModule, PrismaModule, EmailModule],
+  providers: [PrismaService],
 })
 export class MainModule { }
