@@ -6,8 +6,8 @@ async function bootstrap() {
   const app = await NestFactory.create(MainModule);
 
   const config = new DocumentBuilder()
-    .setTitle('Watch Tower')
-    .setDescription('Watch Tower API description')
+    .setTitle('Watch Health')
+    .setDescription('Watch Health API description')
     .setVersion('1.0')
     .build();
   const documentFactory = () => SwaggerModule.createDocument(app, config);
@@ -15,5 +15,4 @@ async function bootstrap() {
 
   await app.listen(process.env.PORT);
 }
-
 bootstrap();
