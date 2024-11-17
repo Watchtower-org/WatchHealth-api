@@ -22,4 +22,6 @@ enum News {
   LAW
   BIDDING
   NEWS
+  COVID
+  DENGUE
 }

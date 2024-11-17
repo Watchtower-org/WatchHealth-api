@@ -4,12 +4,69 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Resumo de Casos de COVID</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f4f4f9;
+      margin: 0;
+      padding: 0;
+      color: #333;
+    }
+
+    header {
+      background-color: #007BFF;
+      color: white;
+      text-align: center;
+      padding: 20px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 2.5em;
+    }
+
+    .content {
+      padding: 20px;
+      margin: 20px;
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .summary {
+      font-size: 1.2em;
+      margin-bottom: 20px;
+    }
+
+    .covid-cases {
+      background-color: #f9f9f9;
+      padding: 15px;
+      border-radius: 5px;
+      border-left: 5px solid #007BFF;
+    }
+
+    footer {
+      text-align: center;
+      font-size: 0.9em;
+      color: #777;
+      margin-top: 30px;
+      padding: 10px;
+      background-color: #f4f4f9;
+    }
+  </style>
 </head>
 <body>
-  <h1>Olá, {{name}}!</h1>
-  <p>Aqui está o resumo dos casos de COVID:</p>
-  <div>
-    {{covidContent}}
+  <header>
+    <h1>Resumo de Casos de COVID</h1>
+  </header>
+  <div class="content">
+    <p class="summary">Olá, {{name}}! Aqui está o resumo dos casos de COVID:</p>
+    <div class="covid-cases">
+      {{covidContent}}
+    </div>
   </div>
+  <footer>
+    <p>&copy; 2024 Resumo de Casos de COVID</p>
+  </footer>
 </body>
 </html>
