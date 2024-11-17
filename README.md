@@ -26,9 +26,9 @@ WatchHealth é uma plataforma inovadora que centraliza informações relevantes 
 
 <h3><strong> Front-End: </strong></h3>
 
-- Next.js: Framework React para construção da interface de usuário
-- TypeScript: Para garantir a tipagem estática e segurança no código
-- React.js: Biblioteca para renderização eficiente e criação de interfaces interativas
+- Next.js: Framework React para construção da interface de usuário.
+- TypeScript: Para garantir a tipagem estática e segurança no código.
+- React.js: Biblioteca para renderização eficiente e criação de interfaces interativas.
 
 <h3><strong> Back-End: </strong></h3>
 
@@ -41,29 +41,30 @@ WatchHealth é uma plataforma inovadora que centraliza informações relevantes 
 
 
 
-🌟 Inspirado por...
+🌟 **Inspirado por...**
+
 "Think deeply about things. Don’t just go along because that’s the way things are or that’s what your friends say. Consider the effects, consider the alternatives, but most importantly, just think."
 — Aaron Swartz
 
-🌟 Propósito.
+🌟 **Propósito.**
 
-Este projeto foi inspirado pela necessidade de informações confiáveis e torná-las acessíveis a todos de forma clara e organizada. Por meio da integração com tecnologia e intelegência Artificial, o watchHealth API democratiza o acesso à informação.
+Este projeto foi inspirado pela necessidade de informações confiáveis e torná-las acessíveis a todos de forma clara e organizada. Por meio da integração com tecnologia e inteligência artificial, o WatchHealth API democratiza o acesso à informação.
 
-💡 Contribua
+💡 **Contribua**
 
 Contribuições são bem-vindas!
 
 <h3><strong> Como rodar o projeto? </strong></h3>
 
-Para rodar o projeto localmente, você irá precisar instalado os seguintes
-programas:
+Para rodar o projeto localmente, você irá precisar dos seguintes programas
+instalados:
 
 - [Node.js](https://nodejs.org/pt)
 - [Docker](https://www.docker.com/)
 - [Docker Compose](https://docs.docker.com/compose/install/)
 
 Primeiramente crie um arquivo .env na raiz do projeto e adicione as seguintes
-variáveis de ambiente. Subistitua `<bluessy_username>` e `<bluessy_password>`
+variáveis de ambiente. Subistitua `<bluesky_username>` e `<bluesky_password>`
 pelo seu usuário e senha do bot do Bluesky, caso vá testar essa funcionalidade.
 
 ```
@@ -74,8 +75,8 @@ DATABASE_URL="postgresql://root:root@localhost:5432/watchtower?schema=public"
 PORT="5533"
 
 # BSKY
-BLUESKY_USERNAME=<bluessy_username>
-BLUESKY_PASSWORD=<bluessy_password>
+BLUESKY_USERNAME=<bluesky_username>
+BLUESKY_PASSWORD=<bluesky_password>
 ```
 
 Em seguida instale as dependências e suba o banco de dados:
@@ -84,21 +85,21 @@ Em seguida instale as dependências e suba o banco de dados:
 # Instale as dependências
 npm install
 
-# Sobe o banco de dados no docker
+# Suba o banco de dados no docker
 docker compose up -d
 
 # Crie as tabelas no banco de dados
 npx prisma migrate dev --name init
 ```
 
-Agora, para executar o servidor, execute o comando:
+Agora, para executar o servidor, utilize o comando:
 
 ```
 npm run start
 ```
 
-Agora, acesse o endereço `http://localhost:5533/api` no seu navegador, para ver
-a documentação da API.
+Acesse o endereço `http://localhost:5533/api` no seu navegador, para ver a
+documentação da API.
 
 Você também pode executar `npm run start:dev` para reiniciar o sservidor
-automaticamente sempre que um arquivo for modificado, caso quiera .
+automaticamente sempre que um arquivo for modificado.
