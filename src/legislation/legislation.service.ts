@@ -134,11 +134,21 @@ export class LegislationService {
   async sendLegislacaoNewsletter() {
     try {
       const tipo = 'LEI';
-      const ano = 2024;
-      const fromDate = new Date('2024-10-17');
-
+      const anoLocal = new Date().getFullYear(); // Pega o ano atual
+      const fromDate = new Date();
+      fromDate.setHours(0, 0, 0, 0); // Reseta a hora para 00:00:00.000 para pegar apenas o dia
+      
+      // Formata a data para o formato DD/MM/YYYY
+      const dia = fromDate.getDate().toString().padStart(2, '0'); // Adiciona zero à esquerda se necessário
+      const mes = (fromDate.getMonth() + 1).toString().padStart(2, '0'); // Mês é 0-indexado, então adiciona 1
+      const ano = fromDate.getFullYear();
+      
+      const dataFormatada = `${dia}/${mes}/${ano}`;
+      
+      console.log(dataFormatada); // Exibe a data no formato DD/MM/YYYY
+      
       console.log('Buscando legislações...');
-      const legislacoes = await this.getLegislation(tipo, ano, fromDate);
+      const legislacoes = await this.getLegislation(tipo, anoLocal, fromDate);
 
       if (!legislacoes.length) {
         console.log('Nenhuma legislação encontrada para os critérios especificados.');
