@@ -19,7 +19,7 @@ export class RssController {
 
   @Get('covid')
   @ApiOperation({ summary: 'Obtém dados RSS sobre a Covid-19' })
-  @ApiQuery({ name: 'uf', required: true, description: 'Código UF do município' })
+  @ApiQuery({ name: 'uf', required: true, description: 'UF do município' })
   async getRssCovidData(@Query('uf') uf: string, @Res() res: Response) {
     const data = await this.covidService.getCovidData(uf);
     const rssData = await this.rssService.getRssCovidData([data]);
@@ -28,29 +28,37 @@ export class RssController {
     return res.send(rssData);
   }
   @Get('dengue')
-  @ApiOperation({ summary: 'Obtém dados RSS sobre a Dengue' })  
-  @ApiQuery({ name: 'ibgecode', required: true, description: 'Código IBGE do município' })  
-  @ApiQuery({ name: 'disease', required: true, description: 'Nome da doença (por exemplo, dengue)' })  
+  @ApiOperation({ summary: 'Obtém dados RSS sobre a Dengue' })
+  @ApiQuery({ name: 'ibgecode', required: true, description: 'Código IBGE do município' })
+  @ApiQuery({ name: 'disease', required: true, description: 'Nome da doença (por exemplo, dengue)' })
   async getRssDengueData(
     @Query('ibgecode') ibgecode: string,
-    @Query('disease') disease: string
+    @Query('disease') disease: string,
+    @Res() res: Response,
   ) {
     const data = await this.dengueService.getDengueData(ibgecode, disease);
-    return this.rssService.getRssDengueData(data);
+    const rssData = await this.rssService.getRssDengueData(data);
+
+    res.set('Content-Type', 'application/rss+xml');
+    return res.send(rssData);
   }
 
   @Get('legislation')
-  @ApiOperation({ summary: 'Obtém dados RSS sobre a Legislação' })  
-  @ApiQuery({ name: 'tipo', required: true, description: 'Tipo da legislação' })  
-  @ApiQuery({ name: 'ano', required: true, description: 'Ano da legislação' })  
-  @ApiQuery({ name: 'from', required: false, description: 'Data de início (formato: yyyy-mm-dd)' })  
+  @ApiOperation({ summary: 'Obtém dados RSS sobre a Legislação' })
+  @ApiQuery({ name: 'tipo', required: true, description: 'Tipo da legislação' })
+  @ApiQuery({ name: 'ano', required: true, description: 'Ano da legislação' })
+  @ApiQuery({ name: 'from', required: false, description: 'Data de início (formato: yyyy-mm-dd)' })
   async getRssLegislationData(
     @Query('tipo') tipo: string,
     @Query('ano') ano: number,
-    @Query('from') from: string | null
+    @Query('from') from: string | null,
+    @Res() res: Response,
   ) {
     const fromDate = from ? new Date(from) : null;
     const data = await this.legislationService.getLegislation(tipo, ano, fromDate);
-    return this.rssService.getRssLegislationData(data);
+    const rssData = await this.rssService.getRssLegislationData(data);
+
+    res.set('Content-Type', 'application/rss+xml');
+    return res.send(rssData);
   }
 }
