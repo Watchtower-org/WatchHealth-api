@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { XMLParser } from 'fast-xml-parser';
 import { HttpService } from '@nestjs/axios';
 import { firstValueFrom } from 'rxjs';
+import { PrismaService } from 'src/prisma/prisma.service';
 
 export interface NewsPost {
   title: string;
@@ -18,7 +19,19 @@ export class NewsService {
   private readonly CNN_RSS_URL = 'https://www.cnnbrasil.com.br/saude/feed';
   private readonly BV_SMS_RSS_URL = 'https://bvsms.saude.gov.br/feed/';
 
-  constructor(private readonly httpService: HttpService) { }
+  constructor(
+    private readonly httpService: HttpService,
+    private readonly prisma: PrismaService,
+  ) { }
+
+  // Fetch all news from the database
+  async getAllNews(): Promise<NewsPost[]> {
+    return this.prisma.newsPost.findMany({
+      orderBy: {
+        pubDate: 'desc', // Sort by publication date in descending order
+      },
+    });
+  }
 
   // Return new posts from all know sources, sorted by date.
   async fetchNews(): Promise<NewsPost[]> {
@@ -75,6 +88,22 @@ export class NewsService {
       pubDate: new Date(item['dc:date'] || item.pubDate),
       source,
     }));
+  }
+
+  // Store posts in the database, using Prisma
+  async createNewsPosts(newsPosts: NewsPost[]): Promise<void> {
+    const data = newsPosts.map(post => ({
+      title: post.title,
+      link: post.link,
+      description: post.description,
+      pubDate: post.pubDate,
+      source: post.source,
+    }));
+
+    // Use createMany to batch insert the posts
+    await this.prisma.newsPost.createMany({
+      data,
+    });
   }
 }
 
