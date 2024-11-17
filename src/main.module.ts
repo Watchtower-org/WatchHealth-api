@@ -8,9 +8,10 @@ import { DengueModule } from './dengue/dengue.module';
 import { ScheduleModule } from '@nestjs/schedule';
 import { CovidModule } from './covid/covid.module';
 import { LlmModule } from './llm/llm.module';
+import { NewsModule } from './news/news.module';
 
 @Module({
-  imports: [UserModule, PrismaModule, EmailModule, LegislationModule,CovidModule,DengueModule,ScheduleModule.forRoot(), LlmModule],
+  imports: [UserModule, PrismaModule, EmailModule, LegislationModule, CovidModule, DengueModule, ScheduleModule.forRoot(), LlmModule, NewsModule],
   providers: [PrismaService],
 })
 export class MainModule { }
