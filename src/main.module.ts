@@ -9,7 +9,7 @@ import { ScheduleModule } from '@nestjs/schedule';
 import { CovidModule } from './covid/covid.module';
 
 @Module({
-  imports: [UserModule, PrismaModule, EmailModule, LegislationModule],
+  imports: [UserModule, PrismaModule, EmailModule, LegislationModule,CovidModule,DengueModule,ScheduleModule.forRoot()],
   providers: [PrismaService],
 })
 export class MainModule { }

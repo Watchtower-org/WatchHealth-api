@@ -2,8 +2,8 @@ import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
 import { lastValueFrom } from 'rxjs';
 import { Cron } from '@nestjs/schedule';
-import { EmailService } from 'src/email/email.service';
-import { UserService } from 'src/user/user.service';
+import { EmailService } from '../email/email.service';
+import { UserService } from '../user/user.service';
 
 @Injectable()
 export class DengueService {
