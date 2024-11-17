@@ -21,11 +21,11 @@ export class DengueService {
         return weekNumber;
     }
 
-    async getDengueData() {
+    async getDengueData(ibgecode: string) {
         const currentDate = new Date();
         const currentWeek = this.getWeekNumber(currentDate);
 
-        const url = `https://info.dengue.mat.br/api/alertcity?geocode=3139904&disease=dengue&format=json&ew_start=${currentWeek}&ew_end=${currentWeek}&ey_start=2024&ey_end=2024`;
+        const url = `https://info.dengue.mat.br/api/alertcity?geocode=${ibgecode}&disease=dengue&format=json&ew_start=${currentWeek}&ew_end=${currentWeek}&ey_start=2024&ey_end=2024`;
 
         try {
             const response = await lastValueFrom(this.httpService.get(url, { responseType: 'json' }));
@@ -58,12 +58,11 @@ export class DengueService {
 
     async sendWeeklyNewsletter() {
         try {
-            const dengueData = await this.getDengueData();
-            const formattedContent = await this.processDengueData(dengueData);
-    
             const users = await this.userService.findManyByDengue();
     
             for (const user of users) {
+                const dengueData = await this.getDengueData(user.ibgecode);
+                const formattedContent = await this.processDengueData(dengueData);
                 await this.emailService.sendEmailDengue(user.email, user.name, formattedContent);
                 console.log(`Newsletter enviada para: ${user.email}`);
             }
