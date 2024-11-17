@@ -21,4 +21,11 @@ export class GeminiProvider {
     return res.response.candidates[0].content.parts[0].text;
   }
 
+  async summarizeToEmail(prompt: string): Promise<string> {
+    prompt = "Sumarize o texto a seguir para um cabeçalho de email: " + prompt;
+    const res = await this.model.generateContent([prompt]);
+
+    return res.response.candidates[0].content.parts[0].text;
+  }
+
 }
