@@ -55,10 +55,44 @@ Contribuições são bem-vindas!
 
 <h3><strong> Como rodar o projeto? </strong></h3>
 
-1. npm install
-2. docker compose up -d
-3. npx prisma migrate dev --name init
-4. npm run start:dev
+Para rodar o projeto localmente, primeiramente execute os comando abaixo, crie
+um arquivo .env na raiz do projeto e adicione as seguintes variáveis de
+ambiente. Subistitua `<bluessy_username>` e `<bluessy_password>` pelo seu
+usuário e senha do bot do Bluesky, caso vá testar essa funcionalidade.
 
+```
+# URL da conexão com o banco de dados
+DATABASE_URL="postgresql://root:root@localhost:5432/watchtower?schema=public"
 
+# Porta da aplicação
+PORT="5533"
 
+# BSKY
+BLUESKY_USERNAME=<bluessy_username>
+BLUESKY_PASSWORD=<bluessy_password>
+```
+
+Em seguida instale as dependências e suba o banco de dados:
+
+```
+# Instale as dependências
+npm install
+
+# Sobe o banco de dados no docker
+docker compose up -d
+
+# Crie as tabelas no banco de dados
+npx prisma migrate dev --name init
+```
+
+Agora, para executar o servidor, execute o comando:
+
+```
+npm run start
+```
+
+Agora, acesse o endereço `http://localhost:5533/api` no seu navegador, para ver
+a documentação da API.
+
+Você também pode executar `npm run start:dev` para reiniciar o sservidor
+automaticamente sempre que um arquivo for modificado, caso quiera .
