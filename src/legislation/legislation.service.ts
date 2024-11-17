@@ -1,6 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { firstValueFrom } from 'rxjs';
+import { UserService } from 'src/user/user.service';
+import { EmailService } from 'src/email/email.service';
 
 export interface Legislation {
   id: string;
@@ -15,7 +17,7 @@ export interface Legislation {
 export class LegislationService {
   private readonly apiUrl = 'https://legis.senado.leg.br/dadosabertos/legislacao/lista';
 
-  constructor(private readonly httpService: HttpService) { }
+  constructor(private readonly httpService: HttpService,private readonly userService: UserService,private readonly emailService: EmailService) { }
 
   /**
    * Fetches legislation data by type and year.
@@ -115,5 +117,111 @@ export class LegislationService {
     }
     return list;
   }
+
+
+  async sendLegislacaoNewsletter() {
+    try {
+      const tipo = 'LEI'; 
+      const ano = 2024; 
+      const fromDate = new Date('2024-01-01');
+  
+      console.log('Buscando legislações...');
+      const legislacoes = await this.getLegislation(tipo, ano, fromDate);
+  
+      if (!legislacoes.length) {
+        console.log('Nenhuma legislação encontrada para os critérios especificados.');
+        return;
+      }
+  
+      console.log('Buscando usuários para envio da newsletter...');
+      const users = await this.userService.findManyByLaws(); 
+  
+      if (!users.length) {
+        console.log('Nenhum usuário encontrado para envio da newsletter.');
+        return;
+      }
+  
+      for (const user of users) {
+        const formattedContent = legislacoes
+          .map((leg) => `
+            <h3>${leg.tipo} - ${leg.date.toLocaleDateString('pt-BR')}</h3>
+            <p><strong>Ementa:</strong> ${leg.ementa}</p>
+            <p><strong>Palavras-chave:</strong> ${leg.keywords.join(', ')}</p>
+            <p><strong>Texto completo:</strong></p>
+            <p>${leg.text}</p>
+          `)
+          .join('<hr>');
+  
+        try {
+          await this.emailService.sendEmailCovid(user.email, user.name, formattedContent);
+          console.log(`Newsletter enviada com sucesso para: ${user.email}`);
+        } catch (emailError) {
+          console.error(`Erro ao enviar e-mail para ${user.email}:`, emailError.message);
+        }
+      }
+    } catch (error) {
+      console.error('Erro ao enviar a newsletter de legislações:', error.message);
+    }
+  }
+
+  async sendLegislacaoNewsletter() {
+    try {
+      const tipo = 'LEI'; // Tipo de legislação
+
+      // Obter a data atual
+      const today = LocalDate.now();
+
+      // Calcular início (segunda-feira) e fim (domingo) da semana atual
+      const startOfWeek = today.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
+      const endOfWeek = today.with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY));
+
+      console.log(
+        `Filtrando legislações da semana atual (${startOfWeek} a ${endOfWeek})...`
+      );
+
+      // Buscar legislações a partir do início da semana
+      const legislacoes = await this.getLegislation(
+        tipo,
+        startOfWeek.year(),
+        startOfWeek.toJSDate(),
+      );
+
+      // Filtrar legislações que estão dentro do intervalo da semana
+      const filteredLegislacoes = legislacoes.filter((leg) => {
+        const legDate = LocalDate.from(leg.date);
+        return (
+          !legDate.isBefore(startOfWeek) && !legDate.isAfter(endOfWeek)
+        );
+      });
+
+      if (!filteredLegislacoes.length) {
+        console.log(`Nenhuma legislação encontrada para a semana atual.`);
+        return;
+      }
+
+      console.log('Buscando usuários para envio da newsletter...');
+      const users = await this.userService.findManyByCovid(); // Ajuste conforme necessário
+
+      // Enviar a newsletter para cada usuário
+      for (const user of users) {
+        for (const leg of filteredLegislacoes) {
+          const emailContent = `
+            <h3>${leg.tipo} - ${leg.date.toLocaleDateString('pt-BR')}</h3>
+            <p><strong>Ementa:</strong> ${leg.ementa}</p>
+            <p><strong>Palavras-chave:</strong> ${leg.keywords.join(', ')}</p>
+            <p><strong>Texto completo:</strong></p>
+            <p>${leg.text}</p>
+          `;
+
+          await this.emailService.sendEmail(user.email, 'Newsletter de Legislações', emailContent);
+          console.log(`Newsletter enviada para: ${user.email}`);
+        }
+      }
+    } catch (error) {
+      console.error('Erro ao enviar a newsletter de legislações:', error);
+    }
+  }
+  
+  
 }
 

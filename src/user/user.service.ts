@@ -74,5 +74,19 @@ export class UserService {
         }
     }
     
+    async findManyByLaws() {
+        try {
+            const users = await this.prismaService.user.findMany({
+                where: {
+                    news: 'LAW'
+                }
+            });
+    
+            return users;
+        } catch (error) {
+            console.error('Erro ao buscar os usuários:', error);
+            throw error;
+        }
+    }
 
 }
