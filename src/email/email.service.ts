@@ -82,5 +82,28 @@ export class EmailService {
     }
   }
 
+  async sendEmailLegislation(to: string, name: string, legislationContent: string) {
+    try {
+      const emailHtml = fs.readFileSync('/Users/carlos/Desktop/hackaton/Watchtower-api/src/templates/legislation.html', 'utf-8');
+      const formattedHtml = emailHtml
+        .replace('{{name}}', name)
+        .replace('{{legislationContent}}', legislationContent);
+
+      const mailOptions = {
+        from: 'hackaton2024asd@gmail.com',
+        to,
+        subject: 'Resumo de novas Leis da Legislação',
+        html: formattedHtml,
+      };
+
+      await this.transporter.sendMail(mailOptions);
+      console.log('Email enviado com sucesso!');
+    } catch (error) {
+      console.error('Erro ao enviar e-mail:', error);
+    }
+  }
+
+  
+
 
 }

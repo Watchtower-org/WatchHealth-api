@@ -1,6 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { firstValueFrom } from 'rxjs';
+import { UserService } from 'src/user/user.service';
+import { EmailService } from 'src/email/email.service';
+import { LocalDate, DayOfWeek, TemporalAdjusters } from '@js-joda/core';
 
 export interface Legislation {
   id: string;
@@ -15,7 +18,7 @@ export interface Legislation {
 export class LegislationService {
   private readonly apiUrl = 'https://legis.senado.leg.br/dadosabertos/legislacao/lista';
 
-  constructor(private readonly httpService: HttpService) { }
+  constructor(private readonly httpService: HttpService,private readonly userService: UserService,private readonly emailService: EmailService) { }
 
   /**
    * Fetches legislation data by type and year.
@@ -115,5 +118,52 @@ export class LegislationService {
     }
     return list;
   }
+
+
+  async sendLegislacaoNewsletter() {
+    try {
+      const tipo = 'LEI'; 
+      const ano = 2024; 
+      const fromDate = new Date('2024-10-17');
+  
+      console.log('Buscando legislações...');
+      const legislacoes = await this.getLegislation(tipo, ano, fromDate);
+  
+      if (!legislacoes.length) {
+        console.log('Nenhuma legislação encontrada para os critérios especificados.');
+        return;
+      }
+  
+      console.log('Buscando usuários para envio da newsletter...');
+      const users = await this.userService.findManyByLaws(); 
+  
+      if (!users.length) {
+        console.log('Nenhum usuário encontrado para envio da newsletter.');
+        return;
+      }
+  
+      for (const user of users) {
+        const formattedContent = legislacoes
+          .map((leg) => `
+            <h3>${leg.tipo} - ${leg.date.toLocaleDateString('pt-BR')}</h3>
+            <p><strong>Ementa:</strong> ${leg.ementa}</p>
+            <p><strong>Palavras-chave:</strong> ${leg.keywords.join(', ')}</p>
+            <p><strong>Texto completo:</strong></p>
+            <p>${leg.text}</p>
+          `)
+          .join('<hr>');
+  
+        try {
+          await this.emailService.sendEmailLegislation(user.email, user.name, formattedContent);
+          console.log(`Newsletter enviada com sucesso para: ${user.email}`);
+        } catch (emailError) {
+          console.error(`Erro ao enviar e-mail para ${user.email}:`, emailError.message);
+        }
+      }
+    } catch (error) {
+      console.error('Erro ao enviar a newsletter de legislações:', error.message);
+    }
+  }
+  
 }
 

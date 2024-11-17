@@ -49,7 +49,7 @@ export class CovidService {
       const covidData = await this.getCovidData(uf);
       const formattedContent = await this.processCovidData(covidData);
 
-      const users = await this.userService.findAll();
+      const users = await this.userService.findManyByCovid();
 
       for (const user of users) {
         await this.emailService.sendEmailCovid(user.email, user.name, formattedContent);
