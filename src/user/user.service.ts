@@ -10,14 +10,14 @@ export class UserService {
         private emailService: EmailService
     ) { }
 
-
-
     async createUser(createUserDto: CreateUserDTO) {
         try {
             const user = await this.prismaService.user.create({
-                data: createUserDto,
+                data: {
+                    ...createUserDto,
+                },
             });
-
+    
             this.emailService.sendEmailWelcome(user.email, user.name);
             return {
                 statusCode: 200,
@@ -27,13 +27,13 @@ export class UserService {
             if (error.code === 'P2002') {
                 throw new BadRequestException('Já existe um usuário com este email.');
             }
-
+    
             throw new InternalServerErrorException(
                 'Erro ao criar o usuário: ' + error.message,
             );
         }
     }
-
+    
     async findAll() {
         try {
             const users = await this.prismaService.user.findMany();
@@ -43,13 +43,14 @@ export class UserService {
             throw error;
         }
     }
-
     async findManyByDengue() {
         try {
             const users = await this.prismaService.user.findMany({
                 where: {
-                    news: 'DENGUE'
-                }
+                    news: {
+                        has: 'DENGUE',
+                    },
+                },
             });
     
             return users;
@@ -58,14 +59,15 @@ export class UserService {
             throw error;
         }
     }
-
-
+    
     async findManyByCovid() {
         try {
             const users = await this.prismaService.user.findMany({
                 where: {
-                    news: 'COVID'
-                }
+                    news: {
+                        has: 'COVID',
+                    },
+                },
             });
     
             return users;
@@ -79,8 +81,10 @@ export class UserService {
         try {
             const users = await this.prismaService.user.findMany({
                 where: {
-                    news: 'LAW'
-                }
+                    news: {
+                        has: 'LAW', 
+                    },
+                },
             });
     
             return users;
@@ -89,5 +93,6 @@ export class UserService {
             throw error;
         }
     }
+    
 
 }

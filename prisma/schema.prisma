@@ -1,4 +1,3 @@
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -9,13 +8,13 @@ datasource db {
 }
 
 model User {
-  id       Int    @id @default(autoincrement())
-  email    String @unique
-  name     String
-  news     News   @default(LAW)
-
-
-  @@map("users")
+    id    Int      @id @default(autoincrement())
+    name  String
+    email String   @unique
+    uf String
+    city String
+    ibgecode    String
+    news  String[] 
 }
 
 enum News {
@@ -25,3 +24,4 @@ enum News {
   COVID
   DENGUE
 }
+
