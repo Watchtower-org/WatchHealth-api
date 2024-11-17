@@ -10,9 +10,10 @@ import { CovidModule } from './covid/covid.module';
 import { LlmModule } from './llm/llm.module';
 import { NewsModule } from './news/news.module';
 import { RssModule } from './rss/rss.module';
+import { NewsletterModule } from './newsletter/newsletter.module';
 
 @Module({
-  imports: [UserModule, PrismaModule, EmailModule, LegislationModule, CovidModule, DengueModule, ScheduleModule.forRoot(), LlmModule, NewsModule, RssModule],
+  imports: [UserModule, PrismaModule, EmailModule, LegislationModule, CovidModule, DengueModule, ScheduleModule.forRoot(), LlmModule, NewsModule, RssModule, NewsletterModule],
   providers: [PrismaService],
 })
 export class MainModule { }

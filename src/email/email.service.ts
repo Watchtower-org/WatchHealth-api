@@ -22,8 +22,8 @@ export class EmailService {
     console.log(to);
 
     const fs = require('fs');
-        const emailHtml = fs.readFileSync(path.join(__dirname, '../templates/welcome.html'), 'utf-8');
-        const welcomeHtml = emailHtml.replace('{{name}}', name);
+    const emailHtml = fs.readFileSync(path.join(__dirname, '../templates/welcome.html'), 'utf-8');
+    const welcomeHtml = emailHtml.replace('{{name}}', name);
 
 
     const mailOptions = {
@@ -43,7 +43,7 @@ export class EmailService {
 
   async sendEmailDengue(to: string, name: string, dengueContent: string) {
     try {
-        const emailHtml = fs.readFileSync(path.join(__dirname, '../templates/dengue.html'), 'utf-8');
+      const emailHtml = fs.readFileSync(path.join(__dirname, '../templates/dengue.html'), 'utf-8');
       const formattedHtml = emailHtml.replace('{{name}}', name).replace('{{dengueContent}}', dengueContent);
 
       const mailOptions = {
@@ -104,7 +104,30 @@ export class EmailService {
     }
   }
 
-  
+  // Function to send the newsletter email
+  async sendEmailNewsletter(to: string, name: string, newsletterContent: string) {
+    try {
+      // Read the newsletter HTML template
+      const emailHtml = fs.readFileSync(path.join(__dirname, '../templates/newsletter.html'), 'utf-8');
 
+      // Replace placeholders with dynamic content
+      const formattedHtml = emailHtml
+        .replace('{{name}}', name)
+        .replace('{{newsletterContent}}', newsletterContent);
 
+      // Define the email options
+      const mailOptions = {
+        from: 'hackaton2024asd@gmail.com',  // Replace with the actual sender's email
+        to,
+        subject: 'Weekly Newsletter',
+        html: formattedHtml,  // HTML content generated from the template
+      };
+
+      // Send the email using the transporter
+      await this.transporter.sendMail(mailOptions);
+      console.log('Email newsletter enviado com sucesso!');
+    } catch (error) {
+      console.error('Erro ao enviar e-mail:', error);
+    }
+  }
 }

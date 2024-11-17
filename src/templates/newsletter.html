@@ -107,9 +107,14 @@
     </div>
 
     <div class="content">
-      <h2>Novidades sobre o Watch Health</h2>
+      <h2>Olá, {{name}}!</h2>
 
-      <p>Estamos muito empolgados com estas novidades e acreditamos que elas irão agregar muito mais valor à sua experiência. Não perca tempo, e continue aproveitando ao máximo seu Watch Health!</p>
+      <p>Confira as últimas atualizações sobre saúde e bem-estar:</p>
+
+      <!-- Dynamically injected newsletter content -->
+      <div>
+        {{newsletterContent}}
+      </div>
 
       <a href="https://watchhealth.com" class="cta-button">Saiba Mais</a>
     </div>
@@ -122,3 +127,4 @@
   </div>
 </body>
 </html>
+
