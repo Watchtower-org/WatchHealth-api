@@ -55,10 +55,16 @@ Contribuições são bem-vindas!
 
 <h3><strong> Como rodar o projeto? </strong></h3>
 
-Para rodar o projeto localmente, primeiramente execute os comando abaixo, crie
-um arquivo .env na raiz do projeto e adicione as seguintes variáveis de
-ambiente. Subistitua `<bluessy_username>` e `<bluessy_password>` pelo seu
-usuário e senha do bot do Bluesky, caso vá testar essa funcionalidade.
+Para rodar o projeto localmente, você irá precisar instalado os seguintes
+programas:
+
+- [Node.js](https://nodejs.org/pt)
+- [Docker](https://www.docker.com/)
+- [Docker Compose](https://docs.docker.com/compose/install/)
+
+Primeiramente crie um arquivo .env na raiz do projeto e adicione as seguintes
+variáveis de ambiente. Subistitua `<bluessy_username>` e `<bluessy_password>`
+pelo seu usuário e senha do bot do Bluesky, caso vá testar essa funcionalidade.
 
 ```
 # URL da conexão com o banco de dados
