@@ -5,6 +5,7 @@ import { UserService } from 'src/user/user.service';
 import { EmailService } from 'src/email/email.service';
 import { GeminiProvider } from 'src/llm/gemini.provider';
 import { BlueSkyProvider } from 'src/bots/providers/blue-sky.provider';
+import { NostrProvider } from 'src/bots/providers/nostr.provider';
 
 export interface Legislation {
   id: string;
@@ -13,6 +14,7 @@ export interface Legislation {
   ementa: string;
   keywords: string[];
   text: string;
+  url: string;
 }
 
 @Injectable()
@@ -25,6 +27,7 @@ export class LegislationService {
     private readonly emailService: EmailService,
     private readonly geminiProvider: GeminiProvider,
     private readonly bskService: BlueSkyProvider,
+    private readonly nostrService: NostrProvider,
   ) { }
 
   /**
@@ -113,6 +116,7 @@ export class LegislationService {
             ementa: legislation.ementa,
             keywords,
             text: text,
+            url: text_url,
           });
 
           console.log(`Legislation: ${legislation['@id']} - ${legislation.tipo} - ${date} - ${urn}`);
@@ -124,8 +128,8 @@ export class LegislationService {
       }
     }
     return list;
-  }
 
+  }
 
   async sendLegislacaoNewsletter() {
     try {
@@ -142,11 +146,15 @@ export class LegislationService {
       }
 
     console.log("Summarizing...");
-     const resText = await this.geminiProvider.summarize(legislacoes.map(leg => leg.ementa + leg.text.substring(0, 30)).join(' '));
-     console.log("Sending to BlueSky...");
-     const res = await this.bskService.sendPost(resText);
-      console.log('Buscando usuários para envio da newsletter...');
-      const users = await this.userService.findManyByLaws();
+    // const resText = await this.geminiProvider.summarize(legislacoes.map(leg => leg.ementa + leg.text.substring(0, 30)).join(' '));
+    console.log("Sending to BlueSky...");
+    const res = await this.bskService.sendPost("deu certo".substring(0, 300));
+    console.log("Sending to Nostr...");
+    await this.nostrService.sendPost("deu certo");
+
+    console.log('Buscando usuários para envio da newsletter...');
+    const users = await this.userService.findManyByLaws();
+
 
       if (!users.length) {
         console.log('Nenhum usuário encontrado para envio da newsletter.');

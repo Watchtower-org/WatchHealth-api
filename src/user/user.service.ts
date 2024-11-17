@@ -12,17 +12,17 @@ export class UserService {
 
     async createUser(createUserDto: CreateUserDTO) {
         try {
-            const user = await this.prismaService.user.create({
-                data: {
-                    ...createUserDto,
-                },
-            });
+            // const user = await this.prismaService.user.create({
+            //     // data: {
+            //     //     ...createUserDto,
+            //     // },
+            // });
 
-            this.emailService.sendEmailWelcome(user.email, user.name);
-            return {
-                statusCode: 200,
-                data: user,
-            };
+            // this.emailService.sendEmailWelcome(user.email, user.name);
+            // return {
+            //     statusCode: 200,
+            //     data: user,
+            // };
         } catch (error) {
             if (error.code === 'P2002') {
                 throw new BadRequestException('Já existe um usuário com este email.');
@@ -48,7 +48,7 @@ export class UserService {
             const users = await this.prismaService.user.findMany({
                 where: {
                     news: {
-                        has: 'DENGUE',
+                        // has: 'DENGUE',
                     },
                 },
             });
@@ -65,7 +65,7 @@ export class UserService {
             const users = await this.prismaService.user.findMany({
                 where: {
                     news: {
-                        has: 'COVID',
+                        // has: 'COVID',
                     },
                 },
             });
@@ -82,7 +82,7 @@ export class UserService {
             const users = await this.prismaService.user.findMany({
                 where: {
                     news: {
-                        has: 'LAW',
+                        // has: 'LAW',
                     },
                 },
             });
