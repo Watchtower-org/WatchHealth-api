@@ -1,22 +1,10 @@
-import { ArrayNotEmpty } from "@nestjs/class-validator";
 import { ApiProperty, OmitType } from "@nestjs/swagger";
-import { Type } from "class-transformer";
-import { IsArray, IsEmail, IsEnum, IsInt, IsNotEmpty, IsString } from "class-validator";
-
-export enum News {
-  LAW = 'LAW',
-  BIDDING = 'BIDDING',
-  NEWS = 'NEWS',
-  COVID = 'COVID',
-  DENGUE = 'DENGUE',
-}
-
+import { IsBoolean, IsEmail, IsInt, IsNotEmpty, IsString } from "class-validator";
 
 export class UserDTO {
   @ApiProperty()
   @IsNotEmpty()
   @IsInt()
-  @Type(() => Number)
   id: number;
 
   @ApiProperty()
@@ -40,17 +28,39 @@ export class UserDTO {
   email: string;
 
   @ApiProperty({
-    type: [String],
-    enum: News,
-    description: 'Lista de interesses do usuário',
+    description: 'Se o usuário tem interesse em leis',
+    default: false,
   })
-  @IsArray()
-  @ArrayNotEmpty()
-  @IsEnum(News, { each: true })
-  news: News[];
+  @IsBoolean()
+  law: boolean;
+
+  @ApiProperty({
+    description: 'Se o usuário tem interesse em licitações',
+    default: false,
+  })
+  @IsBoolean()
+  bidding: boolean;
+
+  @ApiProperty({
+    description: 'Se o usuário tem interesse em notícias gerais',
+    default: false,
+  })
+  @IsBoolean()
+  news: boolean;
+
+  @ApiProperty({
+    description: 'Se o usuário tem interesse em COVID-19',
+    default: false,
+  })
+  @IsBoolean()
+  covid: boolean;
+
+  @ApiProperty({
+    description: 'Se o usuário tem interesse em Dengue',
+    default: false,
+  })
+  @IsBoolean()
+  dengue: boolean;
 }
 
-export class CreateUserDTO extends OmitType(UserDTO, [
-  'id'
-]) { }
-
+export class CreateUserDTO extends OmitType(UserDTO, ['id']) { }

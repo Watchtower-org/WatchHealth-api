@@ -14,7 +14,11 @@ model User {
     uf String
     city String
     ibgecode    String
-    news  String[] 
+    law Boolean
+    bidding Boolean
+    news Boolean
+    covid Boolean
+    dengue Boolean
 }
 
 enum News {
