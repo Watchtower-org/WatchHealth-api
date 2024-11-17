@@ -44,7 +44,7 @@ export class NostrProvider implements Bot {
       content: JSON.stringify({
         name: username,
         about: description,
-        picture: 'https://raw.githubusercontent.com/Watchtower-org/photos/refs/heads/main/watchhealth.png?token=GHSAT0AAAAAACXCNHM5YZQGGDDFOF7OD2E4ZZ2FVPA',
+        picture: 'https://ibb.co/LzwT72b',
       }),
     };
 
