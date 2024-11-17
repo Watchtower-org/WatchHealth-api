@@ -1,8 +1,12 @@
 
 
-![LOGO](logo.jpg)
-
-<h1 align="center">WatchHealth</h1>
+<div style="display: flex; justify-content: center; align-items: center; height: 30vh;">
+  <img src="logo.jpg" alt="Imagem de boas-vindas" style="
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+      ">
+</div>
 
 <h3 align="center">Um hub completo de informações, notícias e resumos legais sobre saúde, com suporte à inteligência artificial. Tecnologia a serviço da saúde e das leis.</h3>
 
