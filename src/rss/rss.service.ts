@@ -14,7 +14,7 @@ export class RssService {
 
     data.forEach((item) => {
       feed.item({
-        title: `Dengue em ${item.state} (${item.uf})`,
+        title: `COVID em ${item.state} (${item.uf})`,
         description: `Casos: ${item.cases}, Mortes: ${item.deaths}, Suspeitos: ${item.suspects}, Recusados: ${item.refuses}`,
         link: `https://www.seusite.com.br/dengue/${item.uid}`,
         date: new Date(item.datetime),
