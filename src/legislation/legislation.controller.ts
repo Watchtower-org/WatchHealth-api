@@ -17,7 +17,7 @@ export class LegislationController {
 
   @Get('teste')
   async sendLegislacaoNewsletter( ) {
-     this.legislationService.sendLegislacaoNewsletter();
+     return this.legislationService.sendLegislacaoNewsletter();
   }
 }
 

@@ -4,11 +4,12 @@ import { LegislationService } from './legislation.service';
 import { LegislationController } from './legislation.controller';
 import { UserService } from 'src/user/user.service';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { EmailModule } from 'src/email/email.module';
 import { EmailService } from 'src/email/email.service';
+import { LlmModule } from 'src/llm/llm.module';
+import { BotsModule } from 'src/bots/bots.module';
 
 @Module({
-  imports: [HttpModule],
+  imports: [HttpModule, LlmModule, BotsModule],
   providers: [LegislationService, UserService,PrismaService,EmailService],
   controllers: [LegislationController],
 })

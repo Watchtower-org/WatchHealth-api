@@ -48,10 +48,10 @@ export class UserService {
         try {
             const users = await this.prismaService.user.findMany({
                 where: {
-                    news: 'DENGUE'
+                    // news: 'DENGUE'
                 }
             });
-    
+
             return users;
         } catch (error) {
             console.error('Erro ao buscar os usuários:', error);
@@ -64,17 +64,17 @@ export class UserService {
         try {
             const users = await this.prismaService.user.findMany({
                 where: {
-                    news: 'COVID'
+                    // news: 'COVID'
                 }
             });
-    
+
             return users;
         } catch (error) {
             console.error('Erro ao buscar os usuários:', error);
             throw error;
         }
     }
-    
+
     async findManyByLaws() {
         try {
             const users = await this.prismaService.user.findMany({
@@ -82,7 +82,7 @@ export class UserService {
                     news: 'LAW'
                 }
             });
-    
+
             return users;
         } catch (error) {
             console.error('Erro ao buscar os usuários:', error);

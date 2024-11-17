@@ -14,8 +14,8 @@ export class GeminiProvider {
   }
 
 
-  summarize(prompt: string): string | Promise<string> {
-    prompt = "Summarize: " + prompt;
+  summarize(prompt: string): Promise<any> {
+    prompt = "Sumarize o texto a seguir para um post no bluesky: " + prompt;
     return this.model.generateContent([prompt]);
   }
 
