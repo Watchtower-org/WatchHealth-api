@@ -142,9 +142,9 @@ export class LegislationService {
       }
 
     console.log("Summarizing...");
-     const geminiResponse = await this.geminiProvider.summarize(legislacoes.map(leg => leg.ementa + leg.text.substring(0, 30)).join(' '));
+     const resText = await this.geminiProvider.summarize(legislacoes.map(leg => leg.ementa + leg.text.substring(0, 30)).join(' '));
      console.log("Sending to BlueSky...");
-     const res = await this.bskService.sendPost(geminiResponse.response.candidates[0].content.parts[0].text);
+     const res = await this.bskService.sendPost(resText);
       console.log('Buscando usuários para envio da newsletter...');
       const users = await this.userService.findManyByLaws();
 
