@@ -10,12 +10,12 @@ export class UserService {
         private emailService: EmailService
     ) { }
 
-
-
     async createUser(createUserDto: CreateUserDTO) {
         try {
             const user = await this.prismaService.user.create({
-                data: createUserDto,
+                data: {
+                    ...createUserDto,
+                },
             });
 
             this.emailService.sendEmailWelcome(user.email, user.name);
@@ -43,13 +43,14 @@ export class UserService {
             throw error;
         }
     }
-
     async findManyByDengue() {
         try {
             const users = await this.prismaService.user.findMany({
                 where: {
-                    // news: 'DENGUE'
-                }
+                    news: {
+                        has: 'DENGUE',
+                    },
+                },
             });
 
             return users;
@@ -59,13 +60,14 @@ export class UserService {
         }
     }
 
-
     async findManyByCovid() {
         try {
             const users = await this.prismaService.user.findMany({
                 where: {
-                    // news: 'COVID'
-                }
+                    news: {
+                        has: 'COVID',
+                    },
+                },
             });
 
             return users;
@@ -79,8 +81,10 @@ export class UserService {
         try {
             const users = await this.prismaService.user.findMany({
                 where: {
-                    news: 'LAW'
-                }
+                    news: {
+                        has: 'LAW',
+                    },
+                },
             });
 
             return users;
@@ -89,5 +93,6 @@ export class UserService {
             throw error;
         }
     }
+
 
 }
