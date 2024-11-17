@@ -147,6 +147,8 @@ export class LegislationService {
 
     console.log("Summarizing...");
     const resText = await this.geminiProvider.summarize(legislacoes.map(leg => leg.ementa + leg.text.substring(0, 30)).join(' '));
+    const resTextEmail = await this.geminiProvider.summarizeToEmail(legislacoes.map(leg => leg.ementa + leg.text.substring(0, 30)).join(' '));
+
     console.log("Sending to BlueSky...");
     const res = await this.bskService.sendPost(resText);
     console.log("Sending to Nostr...");
@@ -160,6 +162,7 @@ export class LegislationService {
         console.log('Nenhum usuário encontrado para envio da newsletter.');
         return;
       }
+      console.log("teste", resText)
 
       for (const user of users) {
         const formattedContent = legislacoes
@@ -168,12 +171,11 @@ export class LegislationService {
             <p><strong>Ementa:</strong> ${leg.ementa}</p>
             <p><strong>Palavras-chave:</strong> ${leg.keywords.join(', ')}</p>
             <p><strong>Texto completo:</strong></p>
-            <p>${leg.text}</p>
           `)
           .join('<hr>');
 
         try {
-          await this.emailService.sendEmailLegislation(user.email, user.name, formattedContent);
+          await this.emailService.sendEmailLegislation(user.email, user.name, formattedContent, resTextEmail);
           console.log(`Newsletter enviada com sucesso para: ${user.email}`);
         } catch (emailError) {
           console.error(`Erro ao enviar e-mail para ${user.email}:`, emailError.message);

@@ -14,7 +14,11 @@ model User {
     uf String
     city String
     ibgecode    String
-    news  String[] 
+    law Boolean
+    bidding Boolean
+    news Boolean
+    covid Boolean
+    dengue Boolean
 }
 
 enum News {
@@ -25,3 +29,13 @@ enum News {
   DENGUE
 }
 
+model NewsPost {
+  id          Int      @id @default(autoincrement())
+  title       String
+  link        String
+  description String
+  pubDate     DateTime
+  source      String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
