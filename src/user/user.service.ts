@@ -10,14 +10,14 @@ export class UserService {
         private emailService:EmailService
       ) {}
 
-      
+
     async createUser(createUserDto: CreateUserDTO) {
         try {
           const user = await this.prismaService.user.create({
             data: createUserDto,
           });
 
-        this.emailService.sendEmailWelcome(user.email,user.name); 
+        this.emailService.sendEmail(user.email,user.name);
           return {
             statusCode: 200,
             data: user,
@@ -26,7 +26,7 @@ export class UserService {
           if (error.code === 'P2002') {
             throw new BadRequestException('Já existe um usuário com este email.');
           }
-    
+
           throw new InternalServerErrorException(
             'Erro ao criar o usuário: ' + error.message,
           );
@@ -42,5 +42,5 @@ export class UserService {
             throw error;
         }
     }
-    
+
 }

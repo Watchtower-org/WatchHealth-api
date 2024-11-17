@@ -17,12 +17,12 @@ export class EmailService {
     });
   }
 
-  
-  async sendEmailWelcome(to: string, name: string) {
+
+  async sendEmail(to: string, name: string) {
     console.log(to);
 
     const fs = require('fs');
-        const emailHtml = fs.readFileSync('/Users/carlos/Desktop/hackaton/Watchtower-api/src/templates/welcome.html', 'utf-8');
+        const emailHtml = fs.readFileSync(path.join(__dirname, '../templates/welcome.html'), 'utf-8');
         const welcomeHtml = emailHtml.replace('{{name}}', name);
 
 
@@ -30,7 +30,7 @@ export class EmailService {
       from: 'hackaton2024asd@gmail.com',
       to,
       subject: "Bem-vindo à nossa plataforma!",
-      html: welcomeHtml, 
+      html: welcomeHtml,
     };
 
     try {
@@ -43,7 +43,7 @@ export class EmailService {
 
   async sendEmailDengue(to: string, name: string, dengueContent: string) {
     try {
-        const emailHtml = fs.readFileSync('/Users/carlos/Desktop/hackaton/Watchtower-api/src/templates/dengue.html', 'utf-8');
+        const emailHtml = fs.readFileSync(path.join(__dirname, '../templates/dengue.html'), 'utf-8');
       const formattedHtml = emailHtml.replace('{{name}}', name).replace('{{dengueContent}}', dengueContent);
 
       const mailOptions = {
@@ -63,7 +63,7 @@ export class EmailService {
 
   async sendEmailCovid(to: string, name: string, covidContent: string) {
     try {
-      const emailHtml = fs.readFileSync('/Users/carlos/Desktop/hackaton/Watchtower-api/src/templates/covid.html', 'utf-8');
+      const emailHtml = fs.readFileSync(path.join(__dirname, '../templates/covid.html'), 'utf-8');
       const formattedHtml = emailHtml
         .replace('{{name}}', name)
         .replace('{{covidContent}}', covidContent);
