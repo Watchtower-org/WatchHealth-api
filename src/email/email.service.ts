@@ -40,4 +40,26 @@ export class EmailService {
       console.error('Erro ao enviar e-mail:', error);
     }
   }
+
+  async sendEmailDengue(to: string, name: string, dengueContent: string) {
+    try {
+        const emailHtml = fs.readFileSync('/Users/carlos/Desktop/hackaton/Watchtower-api/src/templates/dengue.html', 'utf-8');
+      const formattedHtml = emailHtml.replace('{{name}}', name).replace('{{dengueContent}}', dengueContent);
+
+      const mailOptions = {
+        from: 'hackaton2024asd@gmail.com',
+        to,
+        subject: 'Resumo de Casos de Dengue',
+        html: formattedHtml,
+      };
+
+
+      await this.transporter.sendMail(mailOptions);
+      console.log('Email enviado com sucesso!');
+    } catch (error) {
+      console.error('Erro ao enviar e-mail:', error);
+    }
+  }
+
+
 }

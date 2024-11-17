@@ -9,6 +9,8 @@ export class UserService {
         private prismaService: PrismaService,
         private emailService:EmailService
       ) {}
+
+      
     async createUser(createUserDto: CreateUserDTO) {
         try {
           const user = await this.prismaService.user.create({
@@ -30,5 +32,15 @@ export class UserService {
           );
         }
       }
+
+      async findAll() {
+        try {
+            const users = await this.prismaService.user.findMany();
+            return users;
+        } catch (error) {
+            console.error('Erro ao buscar os usuários:', error);
+            throw error;
+        }
+    }
     
 }
