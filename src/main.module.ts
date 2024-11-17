@@ -7,9 +7,10 @@ import { LegislationModule } from './legislation/legislation.module';
 import { DengueModule } from './dengue/dengue.module';
 import { ScheduleModule } from '@nestjs/schedule';
 import { CovidModule } from './covid/covid.module';
+import { LlmModule } from './llm/llm.module';
 
 @Module({
-  imports: [UserModule, PrismaModule, EmailModule, LegislationModule,CovidModule,DengueModule,ScheduleModule.forRoot()],
+  imports: [UserModule, PrismaModule, EmailModule, LegislationModule,CovidModule,DengueModule,ScheduleModule.forRoot(), LlmModule],
   providers: [PrismaService],
 })
 export class MainModule { }
