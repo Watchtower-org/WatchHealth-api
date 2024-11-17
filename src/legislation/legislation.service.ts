@@ -146,11 +146,11 @@ export class LegislationService {
       }
 
     console.log("Summarizing...");
-    // const resText = await this.geminiProvider.summarize(legislacoes.map(leg => leg.ementa + leg.text.substring(0, 30)).join(' '));
+    const resText = await this.geminiProvider.summarize(legislacoes.map(leg => leg.ementa + leg.text.substring(0, 30)).join(' '));
     console.log("Sending to BlueSky...");
-    const res = await this.bskService.sendPost("deu certo".substring(0, 300));
+    const res = await this.bskService.sendPost(resText);
     console.log("Sending to Nostr...");
-    await this.nostrService.sendPost("deu certo");
+    await this.nostrService.sendPost(resText);
 
     console.log('Buscando usuários para envio da newsletter...');
     const users = await this.userService.findManyByLaws();

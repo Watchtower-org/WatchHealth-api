@@ -65,7 +65,6 @@ export class NostrProvider implements Bot {
 
 
   async sendPost(text: string): Promise<void> {
-    console.log(this.publicKey, this.privateKey);
     const replyEvent: any = {
       kind: 1,
       pubkey: this.publicKey,
@@ -76,7 +75,6 @@ export class NostrProvider implements Bot {
 
     replyEvent.id = getEventHash(replyEvent);
     const signedEvent = await finalizeEvent(replyEvent, this.privateKey);
-    console.log(this.publicKey, this.privateKey, signedEvent);
     for (const url of this.relayUrls) {
       try {
         const relay = await Relay.connect(url);
