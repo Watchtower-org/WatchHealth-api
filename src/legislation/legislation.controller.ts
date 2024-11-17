@@ -19,5 +19,6 @@ export class LegislationController {
   async sendLegislacaoNewsletter( ) {
      return this.legislationService.sendLegislacaoNewsletter();
   }
+  
 }
 

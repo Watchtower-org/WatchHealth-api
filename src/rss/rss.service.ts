@@ -50,5 +50,32 @@ export class RssService {
     return feed.xml();
   }
 
+  getRssLegislationData(data: any[]): string {
+    const feed = new RSS({
+      title: 'Legislação Brasileira',
+      description: 'Feed RSS com as últimas legislações publicadas',
+      link: 'https://www.seusite.com.br/legislacao',
+      language: 'pt-br',
+    });
+
+    data.forEach((item) => {
+      const keywords = item.keywords ? item.keywords.join(', ') : 'Sem palavras-chave';
+      const pubDate = item.date ? new Date(item.date).toUTCString() : 'Data não disponível';
+      
+      feed.item({
+        title: `${item.tipo} - ${item.id}`,
+        description: `
+          Ementa: ${item.ementa}, 
+          Palavras-chave: ${keywords},
+          Texto completo: ${item.text}
+        `,
+        link: `https://www.seusite.com.br/legislacao/${item.id}`,
+        date: pubDate,
+      });
+    });
+
+    return feed.xml();
+  }
+
 
 }
