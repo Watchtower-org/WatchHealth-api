@@ -10,6 +10,6 @@ import { HttpModule } from '@nestjs/axios';
   controllers: [CovidController],
   providers: [CovidService,EmailService,UserService,PrismaService],
   imports: [HttpModule],
-
+  exports: [CovidService]
 })
 export class CovidModule {}

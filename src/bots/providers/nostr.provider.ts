@@ -32,7 +32,7 @@ export class NostrProvider implements Bot {
 
     console.log(`Nostr Bot Public Key: ${this.publicKey}`);
 
-    this.setProfile('WatchHealth', 'A bot for Nostr');
+    this.setProfile('WatchHealth', 'Um hub completo de informações, notícias e resumos legais sobre saúde, com suporte à inteligência artificial. Tecnologia a serviço da saúde e das leis.');
   }
 
   async setProfile(username: string, description: string): Promise<void> {
@@ -44,7 +44,7 @@ export class NostrProvider implements Bot {
       content: JSON.stringify({
         name: username,
         about: description,
-        picture: '', // Optional: URL to a profile picture
+        picture: 'https://raw.githubusercontent.com/Watchtower-org/photos/refs/heads/main/watchhealth.png?token=GHSAT0AAAAAACXCNHM5YZQGGDDFOF7OD2E4ZZ2FVPA',
       }),
     };
 
