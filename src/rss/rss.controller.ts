@@ -1,9 +1,11 @@
-import { Controller, Get, Query } from '@nestjs/common';
+import { Controller, Get, Query, Res } from '@nestjs/common';
 import { DengueService } from 'src/dengue/dengue.service';
 import { RssService } from './rss.service';
 import { CovidService } from 'src/covid/covid.service';
 import { LegislationService } from 'src/legislation/legislation.service';
 import { ApiTags, ApiOperation, ApiQuery } from '@nestjs/swagger';
+import { Response } from 'express';
+
 
 @ApiTags('RSS')  // Adiciona a tag para agrupar as rotas no Swagger
 @Controller('rss')
@@ -16,13 +18,16 @@ export class RssController {
   ) {}
 
   @Get('covid')
-  @ApiOperation({ summary: 'Obtém dados RSS sobre a Covid-19' })  
-  @ApiQuery({ name: 'uf', required: true, description: 'Código UF do município' })  
-  async getRssCovidData(@Query('uf') uf: string) {
+  @ApiOperation({ summary: 'Obtém dados RSS sobre a Covid-19' })
+  @ApiQuery({ name: 'uf', required: true, description: 'Código UF do município' })
+  async getRssCovidData(@Query('uf') uf: string, @Res() res: Response) {
     const data = await this.covidService.getCovidData(uf);
-    return this.rssService.getRssCovidData([data]);
-  }
+    const rssData = await this.rssService.getRssCovidData([data]);
 
+    // Configura o cabeçalho para application/rss+xml
+    res.set('Content-Type', 'application/rss+xml');
+    return res.send(rssData);
+  }
   @Get('dengue')
   @ApiOperation({ summary: 'Obtém dados RSS sobre a Dengue' })  
   @ApiQuery({ name: 'ibgecode', required: true, description: 'Código IBGE do município' })  
