@@ -41,10 +41,12 @@
     "html-to-text": "^9.0.5",
     "node-html-parser": "^6.1.13",
     "nodemailer": "^6.9.16",
+    "nostr-tools": "^2.10.3",
     "path": "^0.12.7",
     "reflect-metadata": "^0.2.0",
     "rxjs": "^7.8.1",
     "translatte": "^3.0.1",
+    "ws": "^8.18.0",
     "xoauth2": "^1.2.0"
   },
   "devDependencies": {

@@ -8,25 +8,25 @@ export class UserService {
     constructor(
         private prismaService: PrismaService,
         private emailService: EmailService
-    ) { }    
+    ) { }
 
     async createUser(createUserDto: CreateUserDTO) {
         console.log('Dados recebidos:', createUserDto);
-    
+
         try {
             const user = await this.prismaService.user.create({
                 data: {
                     ...createUserDto,
-                    law: createUserDto.law || false,         
-                    bidding: createUserDto.bidding || false, 
-                    news: createUserDto.news || false,       
-                    covid: createUserDto.covid || false,     
-                    dengue: createUserDto.dengue || false,   
+                    law: createUserDto.law || false,
+                    bidding: createUserDto.bidding || false,
+                    news: createUserDto.news || false,
+                    covid: createUserDto.covid || false,
+                    dengue: createUserDto.dengue || false,
                 },
             });
 
             this.emailService.sendEmailWelcome(user.email, user.name);
-    
+
             return {
                 statusCode: 200,
                 data: user,
@@ -41,9 +41,9 @@ export class UserService {
             );
         }
     }
-    
-    
-    
+
+
+
     async findAll() {
         try {
             const users = await this.prismaService.user.findMany();
@@ -53,7 +53,7 @@ export class UserService {
             throw error;
         }
     }
-    
+
     async findManyByDengue() {
         try {
             const users = await this.prismaService.user.findMany({
@@ -61,7 +61,7 @@ export class UserService {
                     dengue: true,
                 },
             });
-    
+
             console.log('Usuários encontrados:', users);
             return users;
         } catch (error) {
@@ -69,13 +69,13 @@ export class UserService {
             throw error;
         }
     }
-    
-    
+
+
     async findManyByCovid() {
         try {
             const users = await this.prismaService.user.findMany({
                 where: {
-                    covid: true, 
+                    covid: true,
                 },
             });
 
@@ -85,8 +85,8 @@ export class UserService {
             throw error;
         }
     }
-    
-    
+
+
     async findManyByLaws() {
         try {
             const users = await this.prismaService.user.findMany({
@@ -104,6 +104,6 @@ export class UserService {
 
 
 
-    
+
 
 }
