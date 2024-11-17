@@ -24,7 +24,6 @@ export class RssController {
     const data = await this.covidService.getCovidData(uf);
     const rssData = await this.rssService.getRssCovidData([data]);
 
-    // Configura o cabeçalho para application/rss+xml
     res.set('Content-Type', 'application/rss+xml');
     return res.send(rssData);
   }
