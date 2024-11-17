@@ -30,39 +30,7 @@ export class NostrProvider implements Bot {
       'wss://frysian.nostrich.casa',
     ];
 
-    console.log(`Nostr Bot Public Key: ${this.publicKey}`);
-
-    this.setProfile('WatchHealth', 'Um hub completo de informações, notícias e resumos legais sobre saúde, com suporte à inteligência artificial. Tecnologia a serviço da saúde e das leis.');
   }
-
-  async setProfile(username: string, description: string): Promise<void> {
-    const profileEvent: any = {
-      kind: 0, // Metadata event
-      pubkey: this.publicKey,
-      created_at: Math.floor(Date.now() / 1000),
-      tags: [],
-      content: JSON.stringify({
-        name: username,
-        about: description,
-        picture: 'https://i.ibb.co/gM10KBH/watchhealth.png',
-      }),
-    };
-
-    profileEvent.id = getEventHash(profileEvent);
-    const signedProfileEvent = await finalizeEvent(profileEvent, this.privateKey);
-
-    for (const url of this.relayUrls) {
-      try {
-        console.log(`Setting profile on relay at ${url}`);
-        const relay = await Relay.connect(url);
-        relay.publish(signedProfileEvent);
-        console.log(`Profile set with username: ${username}, description: ${description}`);
-      } catch (error) {
-        console.error(`Failed to set profile on relay ${url}`, error);
-      }
-    }
-  }
-
 
   async sendPost(text: string): Promise<void> {
     const replyEvent: any = {
