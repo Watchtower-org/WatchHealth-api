@@ -82,11 +82,12 @@ export class EmailService {
     }
   }
 
-  async sendEmailLegislation(to: string, name: string, legislationContent: string) {
+  async sendEmailLegislation(to: string, name: string, legislationContent: string, resText: string) {
     try {
       const emailHtml = fs.readFileSync('/Users/carlos/Desktop/hackaton/Watchtower-api/src/templates/legislation.html', 'utf-8');
       const formattedHtml = emailHtml
         .replace('{{name}}', name)
+        .replace('{{resText}}', resText)
         .replace('{{legislationContent}}', legislationContent);
 
       const mailOptions = {
