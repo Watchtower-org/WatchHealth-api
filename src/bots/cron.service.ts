@@ -41,7 +41,7 @@ export class CronBotsService {
     private covidService: CovidService
   ){}
 
-  @Cron(CronExpression.EVERY_MINUTE)
+  @Cron(CronExpression.EVERY_HOUR)
   async sendMonthlyCovidReport() {
     console.log('Running cron job to send monthly COVID report');
     for (const uf of this.statesUF) {

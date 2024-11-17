@@ -44,7 +44,7 @@ export class NostrProvider implements Bot {
       content: JSON.stringify({
         name: username,
         about: description,
-        picture: 'https://ibb.co/LzwT72b',
+        picture: 'https://i.ibb.co/gM10KBH/watchhealth.png',
       }),
     };
 
