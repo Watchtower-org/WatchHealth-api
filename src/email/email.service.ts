@@ -18,7 +18,7 @@ export class EmailService {
   }
 
 
-  async sendEmail(to: string, name: string) {
+  async sendEmailWelcome(to: string, name: string) {
     console.log(to);
 
     const fs = require('fs');
