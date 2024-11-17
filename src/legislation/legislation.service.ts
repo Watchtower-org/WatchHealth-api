@@ -3,7 +3,8 @@ import { HttpService } from '@nestjs/axios';
 import { firstValueFrom } from 'rxjs';
 import { UserService } from 'src/user/user.service';
 import { EmailService } from 'src/email/email.service';
-import { LocalDate, DayOfWeek, TemporalAdjusters } from '@js-joda/core';
+import { GeminiProvider } from 'src/llm/gemini.provider';
+import { BlueSkyProvider } from 'src/bots/providers/blue-sky.provider';
 
 export interface Legislation {
   id: string;
@@ -18,7 +19,13 @@ export interface Legislation {
 export class LegislationService {
   private readonly apiUrl = 'https://legis.senado.leg.br/dadosabertos/legislacao/lista';
 
-  constructor(private readonly httpService: HttpService,private readonly userService: UserService,private readonly emailService: EmailService) { }
+  constructor(
+    private readonly httpService: HttpService,
+    private readonly userService: UserService,
+    private readonly emailService: EmailService,
+    private readonly geminiProvider: GeminiProvider,
+    private readonly bskService: BlueSkyProvider,
+  ) { }
 
   /**
    * Fetches legislation data by type and year.
@@ -122,26 +129,30 @@ export class LegislationService {
 
   async sendLegislacaoNewsletter() {
     try {
-      const tipo = 'LEI'; 
-      const ano = 2024; 
+      const tipo = 'LEI';
+      const ano = 2024;
       const fromDate = new Date('2024-10-17');
-  
+
       console.log('Buscando legislações...');
       const legislacoes = await this.getLegislation(tipo, ano, fromDate);
-  
+
       if (!legislacoes.length) {
         console.log('Nenhuma legislação encontrada para os critérios especificados.');
         return;
       }
-  
+
+    console.log("Summarizing...");
+     const geminiResponse = await this.geminiProvider.summarize(legislacoes.map(leg => leg.ementa + leg.text.substring(0, 30)).join(' '));
+     console.log("Sending to BlueSky...");
+     const res = await this.bskService.sendPost(geminiResponse.response.candidates[0].content.parts[0].text);
       console.log('Buscando usuários para envio da newsletter...');
-      const users = await this.userService.findManyByLaws(); 
-  
+      const users = await this.userService.findManyByLaws();
+
       if (!users.length) {
         console.log('Nenhum usuário encontrado para envio da newsletter.');
         return;
       }
-  
+
       for (const user of users) {
         const formattedContent = legislacoes
           .map((leg) => `
@@ -152,7 +163,7 @@ export class LegislationService {
             <p>${leg.text}</p>
           `)
           .join('<hr>');
-  
+
         try {
           await this.emailService.sendEmailLegislation(user.email, user.name, formattedContent);
           console.log(`Newsletter enviada com sucesso para: ${user.email}`);
@@ -164,6 +175,6 @@ export class LegislationService {
       console.error('Erro ao enviar a newsletter de legislações:', error.message);
     }
   }
-  
+
 }
 

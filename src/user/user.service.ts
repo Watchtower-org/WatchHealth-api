@@ -17,7 +17,7 @@ export class UserService {
                     ...createUserDto,
                 },
             });
-    
+
             this.emailService.sendEmailWelcome(user.email, user.name);
             return {
                 statusCode: 200,
@@ -27,13 +27,13 @@ export class UserService {
             if (error.code === 'P2002') {
                 throw new BadRequestException('Já existe um usuário com este email.');
             }
-    
+
             throw new InternalServerErrorException(
                 'Erro ao criar o usuário: ' + error.message,
             );
         }
     }
-    
+
     async findAll() {
         try {
             const users = await this.prismaService.user.findMany();
@@ -52,14 +52,14 @@ export class UserService {
                     },
                 },
             });
-    
+
             return users;
         } catch (error) {
             console.error('Erro ao buscar os usuários:', error);
             throw error;
         }
     }
-    
+
     async findManyByCovid() {
         try {
             const users = await this.prismaService.user.findMany({
@@ -69,30 +69,30 @@ export class UserService {
                     },
                 },
             });
-    
+
             return users;
         } catch (error) {
             console.error('Erro ao buscar os usuários:', error);
             throw error;
         }
     }
-    
+
     async findManyByLaws() {
         try {
             const users = await this.prismaService.user.findMany({
                 where: {
                     news: {
-                        has: 'LAW', 
+                        has: 'LAW',
                     },
                 },
             });
-    
+
             return users;
         } catch (error) {
             console.error('Erro ao buscar os usuários:', error);
             throw error;
         }
     }
-    
+
 
 }

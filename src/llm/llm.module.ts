@@ -8,5 +8,7 @@ import { BotsModule } from 'src/bots/bots.module';
   controllers: [LlmController],
   imports: [ConfigModule, BotsModule],
   providers: [GeminiProvider],
+  exports: [GeminiProvider],
 })
 export class LlmModule {}
+
