@@ -20,4 +20,6 @@ model User {
 
 enum News {
   LAW
+  BIDDING
+  NEWS
 }
